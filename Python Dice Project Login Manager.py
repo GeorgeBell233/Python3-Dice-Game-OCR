@@ -22,7 +22,8 @@ def CSVFileReader(Directory):
     except FileNotFoundError:
         with open (os.path.join(sys.path[0],Directory),"w") as File:
             print("File was not found, it has now been created")  # If the file is not found, it is created
-            UsernameSaltHashedPassword=[]
+            UsernameSaltHashedPassword = []
+    
     return(UsernameSaltHashedPassword)
 
 def CSVWrite(Directory,Value):
@@ -47,15 +48,15 @@ def getpassVsInput(Text):
             Value = input(Text)
         else:
             Value = getpass.getpass(Text)
+        
         return Value
-
 
 UsernameSaltHashedPassword = CSVFileReader("UsernameSaltHashedPassword")
 
 #Creates a list of Usernames already present within the file
-UsernamesInUse=[]
-for i in range(len(UsernameSaltHashedPassword)): #Iterates through all index's in the list
-    UsernamesInUse.append(UsernameSaltHashedPassword[i][0])
+UsernamesInUse = []
+for Values in UsernameSaltHashedPassword: #Iterates through all index's in the list
+    UsernamesInUse.append(Values[0])
 
 #Repeats until valid input is recieved, if invalid input is entered the input returns None
 NoOfSequences = None
@@ -65,18 +66,16 @@ while NoOfSequences == None:
         NoOfSequences = int(input("How many logins do you want to add, if there are less than 2 logins it will repeat until there are at least 2. "))
     except:
         print("Invalid Input, please try again")
-
-
 #Ensures 2 logins will be made by changing the NoOfSequences if not enough logins will be added      
+
 if len(UsernameSaltHashedPassword) == 0 and NoOfSequences in [0,1]:
     NoOfSequences = 2
-    print("The number of logins to be added will be 2 as there are not enough logins. Their are currently",len(UsernamesInUse),"logins already set")
+    print("The number of logins to be added will be 2 as there are not enough logins. There are currently ",len(UsernamesInUse)," logins already set")
 elif len(UsernameSaltHashedPassword) == 1 and NoOfSequences in [0]:
     print("The number of logins to be added will be 2 as there are not enough logins")
     NoOfSequences = 1
 
 UsernameSaltHashedPassword = CSVFileReader("UsernameSaltHashedPassword") #Opens file and converts to 2D array, or creates list if file was not found
-
 
 for i in range(0, NoOfSequences):
     #Creates a 2D array with each sub-list containing a Username Salt and HashedPassword
@@ -84,7 +83,7 @@ for i in range(0, NoOfSequences):
 
     while UsernameDuplicate == True:
         print("-----Username Selector-----")
-        print("The usernames currently in use are",UsernamesInUse)
+        print("The usernames currently in use are ",UsernamesInUse)
         
         Username = input("Enter a non duplicate username, if you enter an already in use username you can change the password. ")
         
@@ -122,8 +121,7 @@ for i in range(0, NoOfSequences):
     Salt = SaltGenerator() #Creates salt to add to password for hashing
     HashedPassword = Sha512Hash(Password,Salt) #Hashes inputted password with salt
     
-    UsernameSaltHashedPassword.append([Username,Salt.hex(),HashedPassword]) #Creates a list of the data to 
-    
+    UsernameSaltHashedPassword.append([Username,Salt.hex(),HashedPassword]) #Creates a list of the data to     
     #be written to the csv file, salt.hex is to turn the byte string into a hex string to be appeneded, 
     #the hex string is converted to a byte string
     
