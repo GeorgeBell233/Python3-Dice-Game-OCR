@@ -6,3 +6,11 @@ Note: If you forget a password you can either create a new login, or input the u
  
 2) Afterwards use those login details in Python Dice Project to login and the rest will run as it should. 
     If not enough logins are incorportated, the program will notify you and you will need to create them in the Python Dice Project Login Manager
+    
+Default Logins:
+Login 1
+	Username: Username1
+	Password: Password123
+Login 2
+	Username: Username2
+	Password: HelloDarkness
